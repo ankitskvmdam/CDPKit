@@ -41,6 +41,12 @@ IF(SPHINX_FOUND)
   SET(SPHINX_PROC_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/ProcSource")
   SET(SPHINX_BUILD_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/Source")
 
+  ADD_CUSTOM_COMMAND(OUTPUT "${SPHINX_SOURCE_DIR}/cdpl_python_tutorial/cdpl_python_tutorial.rst"
+    COMMAND "jupyter" "nbconvert" "--to" "rst"
+    "${SPHINX_SOURCE_DIR}/cdpl_python_tutorial/cdpl_python_tutorial.ipynb" 
+    DEPENDS "${SPHINX_SOURCE_DIR}/cdpl_python_tutorial/cdpl_python_tutorial.ipynb"
+    COMMENT "-- Converting CDPL Python tutorial Jupyter-notebook to RST format...")
+ 
   ADD_CUSTOM_TARGET(sphinx-doc
     ${CMAKE_COMMAND} -E rm -r -f "${CMAKE_CURRENT_BINARY_DIR}/html"
     COMMAND "${PYTHON_EXECUTABLE}" "${SPHINX_EXECUTABLE}"
@@ -57,6 +63,7 @@ IF(SPHINX_FOUND)
   ADD_CUSTOM_TARGET(copy-sphinx-sources
     ${CMAKE_COMMAND} -E rm -r -f "${SPHINX_BUILD_SOURCE_DIR}"
     COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_BINARY_DIR}/CopySphinxSourceFiles.cmake"
+    DEPENDS "${SPHINX_SOURCE_DIR}/cdpl_python_tutorial/cdpl_python_tutorial.rst"
     COMMENT "-- Copying Sphinx source files...")
 
   FILE(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CopyExampleSourceCodeFiles.cmake"

@@ -63,7 +63,6 @@ extensions = [
     'sphinx_inline_tabs',
     'docs_versions_menu',
     'sphinx_sitemap',
-    'nbsphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
